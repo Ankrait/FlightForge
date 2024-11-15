@@ -1,0 +1,22 @@
+{
+	"ignoreFiles": [
+		"",
+		"!*.scss"
+	],
+	"extends": [
+		"stylelint-config-standard",
+		"stylelint-config-recommended-scss",
+		"stylelint-config-clean-order",
+		"stylelint-config-prettier-scss"
+	],
+	"plugins": [
+		"stylelint-order"
+	],
+	"rules": {
+		"selector-class-pattern": "[a-z_]",
+		"comment-no-empty": null,
+		"no-descending-specificity": null,
+		"keyframes-name-pattern": null,
+		"scss/comment-no-empty": null
+	}
+}
