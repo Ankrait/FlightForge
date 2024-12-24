@@ -41,6 +41,7 @@ module.exports = [
       'react-hooks/rules-of-hooks': 'error',
       'jsx-a11y/no-autofocus': 'off',
       'react/no-unknown-property': ['error', { ignore: ['css'] }],
+      '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

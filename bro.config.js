@@ -1,7 +1,7 @@
-const pkg = require("./package");
+const pkg = require('./package');
 
 module.exports = {
-  apiPath: "stubs/api",
+  apiPath: 'stubs/api',
   webpackConfig: {
     output: {
       publicPath: `/static/${pkg.name}/${process.env.VERSION || pkg.version}/`,
@@ -9,14 +9,15 @@ module.exports = {
   },
   /* use https://admin.bro-js.ru/ to create config, navigations and features */
   navigations: {
-    "sber.main": "/sber",
+    'sber.main': '/sber',
+    'kfu-24-teacher.detail': '/kfu-24-teacher/flights',
   },
   features: {
-    "sber": {
+    sber: {
       // add your features here in the format [featureName]: { value: string }
     },
   },
   config: {
-    "sber.api": "/api",
+    'sber.api': '/api',
   },
 };
