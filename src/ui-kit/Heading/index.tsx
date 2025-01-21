@@ -12,7 +12,7 @@ interface IHeading
 
 const Heading: FC<IHeading> = ({ children, variant = 'h6', ...props }) => {
   return (
-    <HeadingStyled as={variant} variant="h6" {...props}>
+    <HeadingStyled as={variant} variant={variant} {...props}>
       {children}
     </HeadingStyled>
   );

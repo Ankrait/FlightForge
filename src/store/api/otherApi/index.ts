@@ -2,7 +2,7 @@ import { api } from '..';
 
 import { IAirport, ICity, ICountry } from './index.types';
 
-const URL = 'https://api.travelpayouts.com/data/en';
+const URL = 'https://api.travelpayouts.com/data/ru';
 
 export const otherApi = api.injectEndpoints({
   endpoints: builder => ({
