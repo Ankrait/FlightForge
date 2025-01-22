@@ -10,7 +10,7 @@ module.exports = {
   /* use https://admin.bro-js.ru/ to create config, navigations and features */
   navigations: {
     'sber.main': '/sber',
-    'kfu-24-teacher.detail': '/kfu-24-teacher/flights',
+    'sber.detail': '/sber/flights',
   },
   features: {
     sber: {

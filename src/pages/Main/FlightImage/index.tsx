@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { CardImage } from './index.style';
+import no_image from './images/no_image.jpeg'; 
 
-// Пропсы для компонента
 interface IFlightImageProps {
   cityCode: string;
 }
@@ -15,11 +15,9 @@ const FlightImage: FC<IFlightImageProps> = ({ cityCode }) => {
     setHasError(true);
   };
 
-  const placeholderImage = "https://via.placeholder.com/960x720";  // поставить изображение
-
   return (
     <CardImage
-    src={hasError ? placeholderImage : imageUrl}
+    src={hasError ? no_image : imageUrl}
     alt={cityCode}
     onError={handleImageError}
     />

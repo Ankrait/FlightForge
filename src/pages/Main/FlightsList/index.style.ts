@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Link } from 'react-router-dom';
 
 export const FlightsContainer = styled.div`
   margin: 20px 0 20px 0;
@@ -7,20 +8,27 @@ export const FlightsContainer = styled.div`
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 карточки в каждой строке */
-  gap: 50px 30px; /* Отступы между карточками */
+  gap: 30px; /* Отступы между карточками */
   padding-top: 20px;
   height: auto; /* Высота контейнера будет автоматически подстраиваться */
 `;
 
 export const Card = styled.div`
   background-color: #fff;
-  border-radius: 3px;
-  border: 1px;
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 300px;
+  height: 38dvh;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для transform и box-shadow */
+
+  &:hover {
+    transform: scale(1.03); /* Увеличение размера на 3% */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Увеличение тени при наведении */
+  }
 `;
 
 export const CardHeader = styled.h3`
@@ -33,13 +41,15 @@ export const CardContent = styled.p`
   flex-grow: 1;
 `;
 
-export const CardFooter = styled.button`
+export const CardFooter = styled(Link)`
   background-color: #007bff;
   color: white;
   padding: 10px 10px 10px 10px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  text-decoration: none;
+  display: inline-block; 
+  text-align: center; 
   
   &:hover {
     background-color: #0056b3;
