@@ -14,6 +14,10 @@ const Button = styled.button`
   &:hover {
     background: ${COLORS.primaryText};
   }
+
+  &:disabled {
+    background: ${COLORS.hint};
+  }
 `;
 
 export default Button;

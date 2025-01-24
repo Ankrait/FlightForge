@@ -1,7 +1,4 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import React, { FC } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import React, { FC, useRef, useState } from 'react';
 
 import {
   useGetAirportsQuery,
@@ -10,30 +7,15 @@ import {
 } from '../../../store/api/otherApi';
 import Button from '../../../ui-kit/Button';
 import Flex from '../../../ui-kit/Flex';
-import Input from '../../../ui-kit/Input';
 
-interface ISearchForm {
-  fromCountryCode: string;
-  toCountryCode: string;
-}
-
-const requiredErrorMes = 'Поле обязательно';
-
-const scheme = yup.object({
-  fromCountryCode: yup.string().min(1).max(16).required(requiredErrorMes),
-  toCountryCode: yup.string().required(requiredErrorMes),
-});
+import SearchInput from './SearchInput';
+import { IOrigin } from './types';
 
 const SearchForm: FC = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isValid },
-  } = useForm<ISearchForm>({
-    mode: 'all',
-    resolver: yupResolver(scheme),
-  });
+  const [toCode, setToCode] = useState<IOrigin | null>(null);
+  const [fromCode, setFromCode] = useState<IOrigin | null>(null);
+
+  const fromInputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: cities } = useGetCitiesQuery(undefined, {
     selectFromResult: ({ data, ...state }) => {
@@ -53,42 +35,36 @@ const SearchForm: FC = () => {
     },
   });
 
-  const onSubmit = (data: ISearchForm) => {
-    const findFrom = cities?.find(el => el.code === data.fromCountryCode);
-    const findTo = cities?.find(el => el.code === data.toCountryCode);
-
-    if (!findFrom) {
-      setError('fromCountryCode', {
-        message: 'Город не найден',
-      });
-      return;
-    }
-
-    if (!findTo) {
-      setError('toCountryCode', {
-        message: 'Город не найден',
-      });
-      return;
-    }
+  const onSubmit = () => {
+    const findFrom = cities?.find(el => el.code === toCode?.code);
+    const findTo = cities?.find(el => el.code === fromCode?.code);
 
     console.log(findFrom);
     console.log(findTo);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <Flex align="flex-start" gap={10}>
-        <Input
-          {...register('fromCountryCode')}
+        <SearchInput
           placeholder="Откуда?"
-          error={errors.fromCountryCode?.message}
+          cities={cities || []}
+          airports={airports || []}
+          countries={countries || []}
+          setOrigin={setToCode}
+          handleSelect={() => {
+            if (fromInputRef.current) fromInputRef.current.focus();
+          }}
         />
-        <Input
-          {...register('toCountryCode')}
+        <SearchInput
+          ref={fromInputRef}
           placeholder="Куда?"
-          error={errors.toCountryCode?.message}
+          cities={cities || []}
+          airports={airports || []}
+          countries={countries || []}
+          setOrigin={setFromCode}
         />
-        <Button disabled={!isValid} type="submit">
+        <Button disabled={!toCode || !fromCode} type="submit">
           Найти
         </Button>
       </Flex>
