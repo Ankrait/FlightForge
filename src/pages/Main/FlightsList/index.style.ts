@@ -7,10 +7,10 @@ export const FlightsContainer = styled.div`
 
 export const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 карточки в каждой строке */
-  gap: 30px; /* Отступы между карточками */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px; 
   padding-top: 20px;
-  height: auto; /* Высота контейнера будет автоматически подстраиваться */
+  height: auto; 
 `;
 
 export const Card = styled.div`
@@ -23,17 +23,19 @@ export const Card = styled.div`
   justify-content: space-between;
   height: 38dvh;
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для transform и box-shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: scale(1.03); /* Увеличение размера на 3% */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Увеличение тени при наведении */
+    transform: scale(1.03); 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
   }
 `;
 
 export const CardHeader = styled.h3`
   margin: 7px;
   font-size: 18px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CardContent = styled.p`
@@ -41,17 +43,22 @@ export const CardContent = styled.p`
   flex-grow: 1;
 `;
 
-export const CardFooter = styled(Link)`
-  background-color: #007bff;
-  color: white;
-  padding: 10px 10px 10px 10px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block; 
-  text-align: center; 
-  
-  &:hover {
-    background-color: #0056b3;
-  }
+export const CardDateContent = styled.p`
+  margin: 7px;
+  flex-grow: 1;
+  color: grey;
+  font-size: 14px;
+`;
+
+export const CityInfo = styled.div`
+  display: flex;
+  align-items: center; 
+  gap: 10px; 
+`;
+
+export const FlagImage = styled.img`
+  width: 24px; 
+  height: auto; 
+  max-width: 20px; 
+  max-height: 15px;
 `;

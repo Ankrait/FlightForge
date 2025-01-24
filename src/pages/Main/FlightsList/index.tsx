@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import Heading from '../../../ui-kit/Heading';
-import { Card, CardContainer, CardContent, CardHeader, FlightsContainer} from './index.style';
+import { Card, CardContainer, CardContent, CardDateContent, CardHeader, CityInfo, FlagImage, FlightsContainer} from './index.style';
 import { useGetFlightsQuery } from '../../../store/api/flightsApi/index';
 import { useGetCitiesQuery } from '../../../store/api/otherApi';
 import FlightImage from '../FlightImage';
@@ -13,6 +13,17 @@ const currencySymbols: { [key: string]: string } = {
   usd: '$',
   eur: '€',
   rub: '₽',
+};
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+
+  const formattedDate = date.toLocaleDateString('ru-RU', {
+      month: 'long',
+      day: 'numeric',
+  });
+
+  return formattedDate;
 };
 
 const FlightsList: FC = () => {
@@ -43,11 +54,19 @@ const FlightsList: FC = () => {
           <Link key={cityCode} to={`/flights/${flight.flight_number}/${flight.destination}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <Card>
 
-              <FlightImage cityCode={cityCode} />
-              
+            <FlightImage cityCode={cityCode} />
+
               <CardHeader>
-                {`${cities?.find(city => city.code === flight.origin)?.name}  -  ${cities?.find(city => city.code === flight.destination)?.name}`}
+                <CityInfo>
+                  {`${cities?.find(city => city.code === flight.origin)?.name} - ${cities?.find(city => city.code === flight.destination)?.name}`}
+                  <FlagImage src={require(`./images/flags/${cities?.find(city => city.code === flight.destination)?.country_code.toLowerCase()}.png`)} alt="Флаг" />
+                </CityInfo>
               </CardHeader>
+
+              <CardDateContent>
+                вылет {formatDate(flight.departure_at)}
+              </CardDateContent>
+
               <CardContent>
                 <strong>от {flight.price} {currencySymbols[data.currency.toLowerCase()]} <br /> </strong>
               </CardContent>
