@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
 
 import Flex from '../../ui-kit/Flex';
-import Heading from '../../ui-kit/Heading';
+import FrontElement from './FrontElement';
+import FlightsList from './FlightsList';
 
 const Main: FC = () => {
   return (
-    <Flex dir="column" gap={30}>
-      <Heading variant="h1">Главная</Heading>
-    </Flex>
+    <>
+    <FrontElement/>
+    <FlightsList/>
+    </>
   );
 };
 
