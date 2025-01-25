@@ -1,12 +1,18 @@
+interface INameTranslations {
+  en: string;
+}
+
 export interface ICountry {
   code: string;
-  name: string;
+  name: string | null;
+  name_translations: INameTranslations;
   currency: string;
 }
 
 export interface ICity {
   code: string;
-  name: string;
+  name: string | null;
+  name_translations: INameTranslations;
   coordinates: {
     lon: number;
     lat: number;
@@ -18,7 +24,8 @@ export interface ICity {
 
 export interface IAirport {
   code: string;
-  name: string;
+  name: string | null;
+  name_translations: INameTranslations;
   coordinates: {
     lon: number;
     lat: number;
