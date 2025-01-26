@@ -6,6 +6,7 @@ import {
   DefaultLayoutContent,
   DefaultLayoutWrapper,
 } from './index.style';
+import Footer from './Footer';
 
 const DefaultLayout: FC = () => {
   return (
@@ -14,7 +15,8 @@ const DefaultLayout: FC = () => {
       <DefaultLayoutContent>
         <Outlet />
       </DefaultLayoutContent>
-      <div style={{ background: 'red', padding: '0 8px' }}>Footer</div>
+      {/* <div style={{ background: 'red', padding: '0 8px' }}>Footer</div> */}
+      <Footer/>
     </DefaultLayoutWrapper>
   );
 };
