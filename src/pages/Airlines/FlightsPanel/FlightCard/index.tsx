@@ -2,29 +2,48 @@ import React, { FC } from 'react';
 
 import { FlightData } from '../../../../store/api/flightsApi/index.types';
 
+import {Card, CardHeader, CardDetails, FlightCard, FlightHeader, FlightRoute, FlightDate, FlightDetails, FlightDetail,
+  FlightClassSpan, FlightChangesSpan, FlightGateSpan, FlightDistanceSpan, FlightPrice, FlightFoundAt, FlightFooter} from './index.style';
+
 interface FlightCardProps {
   flight: FlightData;
 }
 
 const Index: FC<FlightCardProps> = ({ flight }) => {
   return (
-    <div style={styles.card}>
-      <h3 style={styles.header}>
+    <Card>
+      <CardHeader>
         Рейс {flight.origin} → {flight.destination}
-      </h3>
-      <div style={styles.details}>
-        <p><strong>Откуда:</strong> {flight.origin}</p>
-        <p><strong>Куда:</strong> {flight.destination}</p>
-        <p><strong>Класс:</strong> {getTripClass(flight.trip_class)}</p>
-        <p><strong>Цена:</strong> {flight.value} руб.</p>
-        <p><strong>Пересадки:</strong> {flight.number_of_changes}</p>
-        <p><strong>Вылет:</strong> {new Date(flight.depart_date).toLocaleString()}</p>
-        <p><strong>Возврат:</strong> {new Date(flight.return_date).toLocaleString()}</p>
-        <p><strong>Расстояние:</strong> {flight.distance} км</p>
-        <p><strong>Актуально:</strong> {flight.actual ? 'Да' : 'Нет'}</p>
-        <p><strong>Агент:</strong> {flight.gate}</p>
-      </div>
-    </div>
+      </CardHeader>
+      <CardDetails>
+          <FlightHeader>
+            <FlightRoute>
+              <span style={{ color: '#007BFF' }}>{flight.origin}</span> → <span style={{ color: '#007BFF' }}>{flight.destination}</span>
+            </FlightRoute>
+            <FlightDate>
+              <span>Вылет: {new Date(flight.depart_date).toLocaleString()}</span> - <span>Возвращение: {new Date(flight.return_date).toLocaleString()}</span>
+            </FlightDate>
+          </FlightHeader>
+
+          <FlightDetails>
+            <FlightDetail>
+              Платформа: <FlightGateSpan>{flight.gate}</FlightGateSpan>
+            </FlightDetail>
+            <FlightDetail>
+              Пересадки: <FlightChangesSpan>{flight.number_of_changes}</FlightChangesSpan>
+            </FlightDetail>
+            <FlightDetail>
+              Расстояние: <FlightDistanceSpan>{flight.distance} км</FlightDistanceSpan>
+            </FlightDetail>
+          </FlightDetails>
+
+          <FlightFooter>
+            <FlightClassSpan>{getTripClass(flight.trip_class)}</FlightClassSpan>
+            <FlightPrice>{flight.value} руб.</FlightPrice>
+            <FlightFoundAt>{flight.found_at}</FlightFoundAt>
+          </FlightFooter>
+      </CardDetails>
+    </Card>
   );
 };
 
@@ -42,24 +61,3 @@ const getTripClass = (tripClass: number): string => {
 };
 
 export default Index;
-
-const styles = {
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '16px',
-    width: '320px',
-    margin: '16px',
-  },
-  header: {
-    marginBottom: '12px',
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  details: {
-    fontSize: '14px',
-    color: '#555',
-  },
-};
