@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 
 import Heading from '../../../ui-kit/Heading';
-import { Card, CardContainer, CardContent, CardDateContent, CardHeader, CityInfo, FlagImage, FlightsContainer} from './index.style';
+import { Card, CardContainer, CardContent, CardDateContent, CardHeader, CityInfo, ContentContainer, FlagImage, FlightsContainer, LinkStyled} from './index.style';
 import { useGetFlightsQuery } from '../../../store/api/flightsApi/index';
 import { useGetCitiesQuery } from '../../../store/api/otherApi';
 import FlightImage from '../FlightImage';
-import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
 
@@ -31,7 +30,7 @@ const FlightsList: FC = () => {
   const { data: cities, error: citiesError, isLoading: citiesLoading  } = useGetCitiesQuery();
 
   if (isLoading || citiesLoading) {
-    return <Loading></Loading>;
+    return <Loading/>;
   }
 
   if (error || citiesError) {
@@ -50,29 +49,35 @@ const FlightsList: FC = () => {
     <FlightsContainer>
       <Heading variant="h4">Популярные рейсы</Heading>
       <CardContainer>
-        {Object.entries(flights).map(([cityCode, flight]) => (
-          <Link key={cityCode} to={`/flights/${flight.flight_number}/${flight.destination}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Card>
+        {Object.entries(flights).map(([cityCode, flight]) => {
+          const originCity = cities?.find(city => city.code === flight.origin);
+          const destinationCity = cities?.find(city => city.code === flight.destination);
 
-            <FlightImage cityCode={cityCode} />
+          return (
+            <LinkStyled key={cityCode} to={`/flights/${flight.flight_number}/${flight.destination}`}>
+              <Card>
+                <FlightImage cityCode={cityCode} />
 
-              <CardHeader>
-                <CityInfo>
-                  {`${cities?.find(city => city.code === flight.origin)?.name} - ${cities?.find(city => city.code === flight.destination)?.name}`}
-                  <FlagImage src={require(`./images/flags/${cities?.find(city => city.code === flight.destination)?.country_code.toLowerCase()}.png`)} alt="Флаг" />
-                </CityInfo>
-              </CardHeader>
+                <ContentContainer>
+                  <CardHeader>
+                    <CityInfo>
+                      {`${originCity?.name} - ${destinationCity?.name}`}
+                      <FlagImage src={require(`./images/flags/${destinationCity?.country_code.toLowerCase()}.png`)} alt="Флаг" />
+                    </CityInfo>
+                  </CardHeader>
 
-              <CardDateContent>
-                вылет {formatDate(flight.departure_at)}
-              </CardDateContent>
+                  <CardDateContent>
+                    вылет {formatDate(flight.departure_at)}
+                  </CardDateContent>
 
-              <CardContent>
-                <strong>от {flight.price} {currencySymbols[data.currency.toLowerCase()]} <br /> </strong>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+                  <CardContent>
+                    <strong>от {flight.price} {currencySymbols[data.currency.toLowerCase()]} <br /> </strong>
+                  </CardContent>
+                </ContentContainer>
+              </Card>
+            </LinkStyled>
+          );
+        })}
       </CardContainer>
     </FlightsContainer>
   );
