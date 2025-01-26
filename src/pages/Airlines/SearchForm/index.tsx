@@ -1,5 +1,8 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import React, { FC, useRef, useState } from 'react';
 
+import { useGetCityToCityFlightsQuery} from '../../../store/api/flightsApi';
+import { FlightDataResponse } from '../../../store/api/flightsApi/index.types';
 import {
   useGetAirportsQuery,
   useGetCitiesQuery,
@@ -11,9 +14,10 @@ import Flex from '../../../ui-kit/Flex';
 import SearchInput from './SearchInput';
 import { IOrigin } from './types';
 
-const SearchForm: FC = () => {
+const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }> = ({ setFlights }) => {
   const [toCode, setToCode] = useState<IOrigin | null>(null);
   const [fromCode, setFromCode] = useState<IOrigin | null>(null);
+  const [canFetch, setCanFetch] = useState(false);
 
   const fromInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,13 +39,24 @@ const SearchForm: FC = () => {
     },
   });
 
-  const onSubmit = () => {
-    const findFrom = cities?.find(el => el.code === toCode?.code);
-    const findTo = cities?.find(el => el.code === fromCode?.code);
+  const { data: flightData, isLoading, error } = useGetCityToCityFlightsQuery(
+    canFetch && toCode && fromCode
+      ? { origin: fromCode.code, destination: toCode.code}
+      : skipToken // Пропустить запрос, если данных нет
+  );
 
-    console.log(findFrom);
-    console.log(findTo);
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!toCode || !fromCode) return;
+
+    setCanFetch(true);
   };
+
+  if (flightData && flightData.success) {
+    setFlights(flightData.data);
+  } else if (error) {
+    console.error('Ошибка при запросе:', error);
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -51,7 +66,7 @@ const SearchForm: FC = () => {
           cities={cities || []}
           airports={airports || []}
           countries={countries || []}
-          setOrigin={setToCode}
+          setOrigin={setFromCode}
           handleSelect={() => {
             if (fromInputRef.current) fromInputRef.current.focus();
           }}
@@ -62,10 +77,10 @@ const SearchForm: FC = () => {
           cities={cities || []}
           airports={airports || []}
           countries={countries || []}
-          setOrigin={setFromCode}
+          setOrigin={setToCode}
         />
-        <Button disabled={!toCode || !fromCode} type="submit">
-          Найти
+        <Button disabled={!toCode || !fromCode || isLoading} type="submit">
+          { isLoading ? 'Загрузка...' : 'Найти'}
         </Button>
       </Flex>
     </form>
