@@ -4,12 +4,11 @@ import React, { FC, useRef, useState } from 'react';
 import { useGetCityToCityFlightsQuery} from '../../../store/api/flightsApi';
 import { FlightDataResponse } from '../../../store/api/flightsApi/index.types';
 import {
-  useGetAirportsQuery,
   useGetCitiesQuery,
-  useGetCountriesQuery,
 } from '../../../store/api/otherApi';
 import Button from '../../../ui-kit/Button';
 import Flex from '../../../ui-kit/Flex';
+import { saveCityToLocalStorage } from '../../../utils/LocalStorage';
 
 import SearchInput from './SearchInput';
 import { IOrigin } from './types';
@@ -29,15 +28,6 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
       };
     },
   });
-  const { data: countries } = useGetCountriesQuery();
-  const { data: airports } = useGetAirportsQuery(undefined, {
-    selectFromResult: ({ data, ...state }) => {
-      return {
-        data: data?.filter(el => el.flightable),
-        ...state,
-      };
-    },
-  });
 
   const { data: flightData, isLoading, error } = useGetCityToCityFlightsQuery(
     canFetch && toCode && fromCode
@@ -48,6 +38,9 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!toCode || !fromCode) return;
+
+    saveCityToLocalStorage(fromCode.code, fromCode.name);
+    saveCityToLocalStorage(toCode.code, toCode.name);
 
     setCanFetch(true);
   };
@@ -64,8 +57,6 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
         <SearchInput
           placeholder="Откуда?"
           cities={cities || []}
-          airports={airports || []}
-          countries={countries || []}
           setOrigin={setFromCode}
           handleSelect={() => {
             if (fromInputRef.current) fromInputRef.current.focus();
@@ -75,8 +66,6 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
           ref={fromInputRef}
           placeholder="Куда?"
           cities={cities || []}
-          airports={airports || []}
-          countries={countries || []}
           setOrigin={setToCode}
         />
         <Button disabled={!toCode || !fromCode || isLoading} type="submit">

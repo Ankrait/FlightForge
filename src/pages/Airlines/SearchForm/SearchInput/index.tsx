@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
-import { IAirport, ICity, ICountry } from '../../../../store/api/otherApi/index.types';
+import { ICity } from '../../../../store/api/otherApi/index.types';
 import Input from '../../../../ui-kit/Input';
 import { IOrigin, OriginType } from '../types';
 
@@ -45,13 +45,11 @@ function levenshteinDistance(a: string, b: string): number {
 
 function findSimilarStrings(
   inputString: string,
-  cities: ICity[],
-  countries: ICountry[],
-  airports: IAirport[],
+  cities: ICity[]
 ) {
   const similar: ISimilar[] = [];
 
-  const searchSimilar = (data: ICity[] | ICountry[] | IAirport[], type: OriginType) => {
+  const searchSimilar = (data: ICity[], type: OriginType) => {
     for (const el of data) {
       const similarity = Math.max(
         el.name ? levenshteinDistance(inputString, el.name) : -1,
@@ -83,8 +81,6 @@ function findSimilarStrings(
   };
 
   searchSimilar(cities, 'city');
-  searchSimilar(countries, 'country');
-  searchSimilar(airports, 'airport');
 
   return similar;
 }
@@ -94,14 +90,12 @@ interface ISearchInput {
 
   setOrigin: (value: IOrigin) => void;
   cities: ICity[];
-  countries: ICountry[];
-  airports: IAirport[];
 
   handleSelect?: () => void;
 }
 
 const SearchInput = forwardRef<HTMLInputElement, ISearchInput>(
-  ({ setOrigin, handleSelect, cities, countries, airports, placeholder }, ref) => {
+  ({ setOrigin, handleSelect, cities, placeholder }, ref) => {
     const [state, setState] = useState({
       value: '',
       updateList: true,
@@ -119,7 +113,7 @@ const SearchInput = forwardRef<HTMLInputElement, ISearchInput>(
       if (!state.value) return;
 
       const t = setTimeout(() => {
-        setCurrentList(findSimilarStrings(state.value, cities, countries, airports));
+        setCurrentList(findSimilarStrings(state.value, cities));
       }, 600);
 
       return () => {
@@ -179,6 +173,7 @@ const SearchInput = forwardRef<HTMLInputElement, ISearchInput>(
     const onSelect = (val: ISimilar) => {
       setOrigin({
         code: val.code,
+        name: val.name,
         type: val.type,
       });
 

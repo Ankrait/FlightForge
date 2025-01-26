@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 
 import { FlightData } from '../../../../store/api/flightsApi/index.types';
+import { getCityFromLocalStorage } from '../../../../utils/LocalStorage';
 
-import {Card, CardHeader, CardDetails, FlightCard, FlightHeader, FlightRoute, FlightDate, FlightDetails, FlightDetail,
+import {Card, CardHeader, CardDetails, FlightHeader, FlightRoute, FlightDate, FlightDetails, FlightDetail,
   FlightClassSpan, FlightChangesSpan, FlightGateSpan, FlightDistanceSpan, FlightPrice, FlightFoundAt, FlightFooter} from './index.style';
 
 interface FlightCardProps {
@@ -10,6 +11,8 @@ interface FlightCardProps {
 }
 
 const Index: FC<FlightCardProps> = ({ flight }) => {
+  const originCityName = getCityFromLocalStorage( flight.origin);
+  const destinationCityName = getCityFromLocalStorage(flight.destination);
   return (
     <Card>
       <CardHeader>
@@ -18,7 +21,7 @@ const Index: FC<FlightCardProps> = ({ flight }) => {
       <CardDetails>
           <FlightHeader>
             <FlightRoute>
-              <span style={{ color: '#007BFF' }}>{flight.origin}</span> → <span style={{ color: '#007BFF' }}>{flight.destination}</span>
+              <span style={{ color: '#007BFF' }}>{originCityName}</span> → <span style={{ color: '#007BFF' }}>{destinationCityName}</span>
             </FlightRoute>
             <FlightDate>
               <span>Вылет: {new Date(flight.depart_date).toLocaleString()}</span> - <span>Возвращение: {new Date(flight.return_date).toLocaleString()}</span>
