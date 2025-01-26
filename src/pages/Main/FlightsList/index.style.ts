@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { Link } from 'react-router-dom';
+import styled from "@emotion/styled"; 
+import { Link } from "react-router-dom";
 
 export const FlightsContainer = styled.div`
   margin: 20px 0 20px 0;
@@ -8,9 +8,17 @@ export const FlightsContainer = styled.div`
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px; 
+  gap: 30px;
   padding-top: 20px;
-  height: auto; 
+  height: auto;
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Card = styled.div`
@@ -21,7 +29,8 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 38dvh;
+  height: 100%;
+  word-wrap: break-word;
 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -31,21 +40,29 @@ export const Card = styled.div`
   }
 `;
 
+export const ContentContainer = styled.div`
+  margin: 0 auto 7px 10px;
+`;
+
 export const CardHeader = styled.h3`
   margin: 7px;
   font-size: 18px;
   display: flex;
   flex-direction: column;
+  flex-grow: 0;
 `;
 
 export const CardContent = styled.p`
   margin: 7px;
+  padding-bottom: 10px;
   flex-grow: 1;
+  display: flex;
 `;
 
 export const CardDateContent = styled.p`
   margin: 7px;
   flex-grow: 1;
+  display: flex;
   color: grey;
   font-size: 14px;
 `;
@@ -61,4 +78,9 @@ export const FlagImage = styled.img`
   height: auto; 
   max-width: 20px; 
   max-height: 15px;
+`;
+
+export const LinkStyled = styled(Link)`
+  text-decoration: none;
+  color: inherit
 `;
