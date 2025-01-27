@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
 
-import { useParams } from 'react-router-dom'; // Для получения параметров из URL
-import { useGetFlightsQuery } from '../../../store/api/flightsApi'; // Ваш запрос рейсов
-import { useGetCitiesQuery } from '../../../store/api/otherApi'; // Запрос для получения городов
+import { useParams } from 'react-router-dom';
+import { useGetFlightsQuery } from '../../../store/api/flightsApi';
+import { useGetCitiesQuery } from '../../../store/api/otherApi';
 import HotelsDetail from '../HotelsDetail/index';
 import { StyledContainer, StyledFlightDate, StyledFlightDetail, StyledFlightDetails, StyledFlightHeader, StyledSection } from './index.style';
 import Heading from '../../../ui-kit/Heading';
+import ErrorMessage from '../../Main/ErrorMessage';
+import Loading from '../../Main/Loading';
 
 const currencySymbols: { [key: string]: string } = {
     usd: '$',
@@ -43,15 +45,15 @@ const FlightDetail: FC = () => {
     const { data: cities, error: citiesError, isLoading: citiesLoading  } = useGetCitiesQuery();
   
     if (isLoading || citiesLoading) {
-      return <div>Загрузка...</div>;
+      return <Loading/>;
     }
   
     if (error || citiesError) {
-      return <div>Ошибка: {JSON.stringify(error || citiesError)}</div>;
+      return <ErrorMessage error={error} citiesError={citiesError} />;
     }
   
     if (!data || !data.success || !data.data) {
-      return <div>Ошибка: Нет данных</div>;
+      return <ErrorMessage error={new Error('Нет данных')} citiesError={citiesError} />;
     }
   
     const flights = data.data;
@@ -64,10 +66,6 @@ const FlightDetail: FC = () => {
   
     return (
         <StyledContainer>
-            <header>
-                <Heading variant='h2'>Детали рейса</Heading>
-            </header>
-
             <StyledSection>
                 <StyledFlightHeader>
                     <Heading variant='h3'>Перелет: {`${cities?.find(city => city.code === flight?.origin)?.name}  -  ${cities?.find(city => city.code === flight?.destination)?.name}`}</Heading>

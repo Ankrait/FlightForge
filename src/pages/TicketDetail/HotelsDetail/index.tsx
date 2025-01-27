@@ -1,9 +1,11 @@
 import React, {FC} from 'react';
 
-import { StyledSection, StyledHotel, StyledInfo, StyledList } from './index.style';
+import { StyledSection, StyledHotel, StyledInfo, StyledList, HotelContent } from './index.style';
 import Heading from '../../../ui-kit/Heading';
 import { useGetHotelsQuery } from '../../../store/api/hotelsApi';
 import Loading from '../../Main/Loading';
+import ErrorMessage from '../../Main/ErrorMessage';
+import HotelImage from '../HotelImage';
 
 interface IHotelRequstData{
     location: string | undefined;
@@ -18,31 +20,42 @@ const HotelsDetail: FC<IHotelRequstData> = ({location, checkIn, checkOut, curren
     const { data, error, isLoading } = useGetHotelsQuery({location, checkIn, checkOut, currency, limit});
 
     if(error) {
-        return <div>Ошибка</div>
+        return <ErrorMessage error={error} citiesError={new Error()} />
     }
 
     if(isLoading) {
         return ( 
             <StyledSection>
-                <Heading variant='h2'>Отели в этом городе</Heading>
-                <Loading/>
+                <Heading variant='h3'>Отели в этом городе</Heading>
+                <StyledSection>
+                    <Loading />
+                </StyledSection>
             </StyledSection> 
         );
     }
 
     return (
-        <StyledSection>
-            <Heading variant='h2'>Отели в этом городе</Heading>
-            <StyledList>
-                {data?.map((hotel, index) => (
-                    <StyledHotel key={index}>
-                        <Heading variant='h3'>{hotel.hotelName}</Heading>
-                        <StyledInfo>⭐ {hotel.stars} звезд</StyledInfo>
-                        <StyledInfo>От {hotel.priceFrom} ₽ за весь период</StyledInfo>
-                    </StyledHotel>
-                ))}
-            </StyledList>
-        </StyledSection>
+        <div>
+            <Heading variant='h3'>Отели в этом городе</Heading>
+            <StyledSection>
+                <StyledList>
+                    {
+                        data?.length == 0 ? <div>Нет данных об отелях в этом городе</div> : (
+                            data?.map((hotel, index) => (
+                                <StyledHotel key={hotel.hotelId}>
+                                    <HotelImage hotelId={hotel.hotelId} />
+                                    <HotelContent>
+                                        <Heading variant='h3'>{hotel.hotelName}</Heading>
+                                        <StyledInfo>⭐ {hotel.stars} звезд</StyledInfo>
+                                        <StyledInfo>От {hotel.priceFrom} ₽ за весь период</StyledInfo>
+                                    </HotelContent>
+                                </StyledHotel>
+                            ))
+                        )
+                    }
+                </StyledList>
+            </StyledSection>
+        </div>
     );
 }
 
