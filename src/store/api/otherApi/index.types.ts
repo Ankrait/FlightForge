@@ -36,4 +36,13 @@ export interface IAirport {
   flightable: boolean;
 }
 
+export interface IAirline {
+  name_translations: {
+    en: string
+  },
+  code: string,
+  name: string,
+  is_lowcost: boolean
+}
+
 // TODO - добавить русский язык

@@ -1,6 +1,6 @@
 import { api } from '..';
 
-import { IAirport, ICity, ICountry } from './index.types';
+import { IAirport, ICity, ICountry, IAirline } from './index.types';
 
 const URL = 'https://api.travelpayouts.com/data/ru';
 
@@ -33,7 +33,16 @@ export const otherApi = api.injectEndpoints({
         },
       }),
     }),
+    getAirlines: builder.query<IAirline[], void>({
+      query: () => ({
+        url: '',
+        method: 'GET',
+        params: {
+          _url: `${URL}/airlines.json`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetAirportsQuery, useGetCitiesQuery, useGetCountriesQuery } = otherApi;
+export const { useGetAirportsQuery, useGetCitiesQuery, useGetCountriesQuery, useGetAirlinesQuery } = otherApi;

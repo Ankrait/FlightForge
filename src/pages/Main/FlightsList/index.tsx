@@ -35,12 +35,12 @@ const FlightsList: FC = () => {
 
   if (error || citiesError) {
     return (
-      <ErrorMessage error={error} citiesError={citiesError}/>
+      <ErrorMessage error={error || citiesError}/>
     );
   }
 
   if (!data || !data.success || !data.data) {
-    return <ErrorMessage error={new Error('Нет данных')} citiesError={citiesError}/>
+    return <ErrorMessage error={new Error('Нет данных')}/>
   }
 
   const flights = data.data;

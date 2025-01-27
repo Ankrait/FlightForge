@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useGetFlightsQuery } from '../../../store/api/flightsApi';
-import { useGetCitiesQuery } from '../../../store/api/otherApi';
+import { useGetCitiesQuery, useGetAirlinesQuery } from '../../../store/api/otherApi';
 import HotelsDetail from '../HotelsDetail/index';
 import { StyledContainer, StyledFlightDate, StyledFlightDetail, StyledFlightDetails, StyledFlightHeader, StyledSection } from './index.style';
 import Heading from '../../../ui-kit/Heading';
@@ -43,17 +43,18 @@ const FlightDetail: FC = () => {
     const { flightNumber, dest } = useParams();
     const { data, error, isLoading } = useGetFlightsQuery();
     const { data: cities, error: citiesError, isLoading: citiesLoading  } = useGetCitiesQuery();
+    const { data: airlines, error: airlinesError, isLoading: airlinesLoading  } = useGetAirlinesQuery();
   
-    if (isLoading || citiesLoading) {
+    if (isLoading || citiesLoading || airlinesLoading) {
       return <Loading/>;
     }
   
-    if (error || citiesError) {
-      return <ErrorMessage error={error} citiesError={citiesError} />;
+    if (error || citiesError || airlinesError) {
+      return <ErrorMessage error={error || citiesError || airlinesError} />;
     }
   
     if (!data || !data.success || !data.data) {
-      return <ErrorMessage error={new Error('Нет данных')} citiesError={citiesError} />;
+      return <ErrorMessage error={new Error('Нет данных')} />;
     }
   
     const flights = data.data;
@@ -64,6 +65,11 @@ const FlightDetail: FC = () => {
     const {formattedDate: depDate, formattedTime: depTime, formattedDateYYYYMMdd: formattedDepDateYYYYMMdd} = formatDate(flight?.departure_at);
     const {formattedDate: retDate, formattedTime: retTime, formattedDateYYYYMMdd: formattedRetDateYYYYMMdd} = formatDate(flight?.return_at);
   
+    const getAirlineName = (code) => {
+        const airline = airlines?.find((airline) => airline.code === flight?.airline);
+        return airline?.name ? airline?.name : airline?.name_translations.en;
+    }
+
     return (
         <StyledContainer>
             <StyledSection>
@@ -83,10 +89,18 @@ const FlightDetail: FC = () => {
                         <Heading variant='h4'>Цена билета:</Heading>
                         <StyledFlightDate>{`${flight?.price}`} {currencySymbols['rub']}</StyledFlightDate>
                     </StyledFlightDetail>
+                    <StyledFlightDetail>
+                        <Heading variant='h4'>Пересадки:</Heading>
+                        {flight?.transfers == 0 ? <StyledFlightDate>Прямой</StyledFlightDate> : <StyledFlightDate>С пересадками</StyledFlightDate>}
+                    </StyledFlightDetail>
+                    <StyledFlightDetail>
+                        <Heading variant='h4'>Авиалинии:</Heading>
+                        <StyledFlightDate>{getAirlineName(flight?.airline)}</StyledFlightDate>
+                    </StyledFlightDetail>
                 </StyledFlightDetails>
             </StyledSection>
 
-            <HotelsDetail location={flight?.destination} checkIn={formattedDepDateYYYYMMdd} checkOut={formattedRetDateYYYYMMdd} currency='rub' limit={5}/>
+            <HotelsDetail location={flight?.destination ?? ""} checkIn={formattedDepDateYYYYMMdd} checkOut={formattedRetDateYYYYMMdd} currency='rub' limit={5}/>
         </StyledContainer>
     );
 }
