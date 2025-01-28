@@ -8,7 +8,6 @@ interface IFlightImageProps {
 
 const FlightImage: FC<IFlightImageProps> = ({ cityCode }) => {
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const imageUrl = `https://photo.hotellook.com/static/cities/960x720/${cityCode}.jpg`;
 
@@ -16,16 +15,11 @@ const FlightImage: FC<IFlightImageProps> = ({ cityCode }) => {
     setHasError(true);
   };
 
-  const handleLoading = () => {
-    setIsLoading(false);
-  };
-
   return (
     <CardImage
-    src={hasError || isLoading ? no_image : imageUrl}
+    src={hasError ? no_image : imageUrl}
     alt={cityCode}
     onError={handleImageError}
-    onLoad={handleLoading}
     />
   );
 };

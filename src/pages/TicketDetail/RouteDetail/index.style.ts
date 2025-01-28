@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
 
 export const StyledContainer = styled.div`
-  max-width: 1600px;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
 `;
 
 export const StyledSection = styled.section`
-  background-color: #fff;
+  background-color:rgb(237, 237, 237);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5%;
 `;
 
 export const StyledFlightHeader = styled.div`
@@ -25,8 +25,8 @@ export const StyledFlightDetail = styled.div`
 
 export const StyledFlightDetails = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: 1.8fr 1.8fr 1fr 1fr 1.5fr;
+  gap: 1%;
 `;
 
 export const StyledFlightDate = styled.div`
