@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 
 import { FlightDataResponse, FlightData } from '../../store/api/flightsApi/index.types';
-import Flex from '../../ui-kit/Flex';
 
 import Filters from './FlightsFilters';
 import { FiltersType } from './FlightsFilters/index.types';
@@ -108,7 +107,7 @@ const Airlines: FC = () => {
 
       <SortSection>
         <Button onClick={handleSortByDate}>
-          Сортировать по дате ({sortBy === 'date' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
+          Сортировать по дате ({sortBy === 'date' && sortOrder === 'asc' ? 'по убыванию' : 'по возрастанию'})
         </Button>
         <Button onClick={handleSortByPrice}>
           Сортировать по цене ({sortBy === 'price' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
