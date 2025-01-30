@@ -53,7 +53,7 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
 
   return (
     <form onSubmit={onSubmit}>
-      <Flex align="flex-start" gap={10}>
+      <Flex align="center" justify="center" gap={10}>
         <SearchInput
           placeholder="Откуда?"
           cities={cities || []}

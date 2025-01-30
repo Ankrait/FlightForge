@@ -18,10 +18,23 @@ export const CardHeader = styled.h3`
 
 export const CardDetails = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
     gap: 16px;
     margin: 16px 7px 7px;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr; 
+    }
 `;
+
 
 export const FlightCard = styled.div`
   width: 300px;
@@ -52,6 +65,8 @@ export const FlightRoute = styled.div`
 export const FlightDate = styled.div`
   font-size: 14px;
   color: #666;
+    display: flex;
+  flex-direction: column;
 `;
 
 // Детали рейса (класс, платформа, пересадки и расстояние)
