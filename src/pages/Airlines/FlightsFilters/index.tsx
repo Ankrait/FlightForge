@@ -1,57 +1,15 @@
 import React from 'react';
 
+import { FiltersContainer, FilterItem, Label, StyledInput, StyledSelect, Actions, StyledButton } from '../index.style';
+
 import { FiltersProps } from './index.types';
 
 const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }) => {
   return (
-    <div>
-      <div>
-        <label htmlFor="maxPrice">Максимальная цена:</label>
-        <input
-          id="maxPrice"
-          type="number"
-          value={filters.maxPrice || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, maxPrice: Number(e.target.value) })
-          }
-        />
-      </div>
-
-      <div>
-        <label htmlFor="maxStops">Максимальное количество пересадок:</label>
-        <select
-          id="maxStops"
-          value={filters.maxStops || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, maxStops: Number(e.target.value) })
-          }
-        >
-          <option value="">Любое</option>
-          <option value="0">Без пересадок</option>
-          <option value="1">1 пересадка</option>
-          <option value="2">2 пересадки</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="tripClass">Класс перелета:</label>
-        <select
-          id="tripClass"
-          value={filters.tripClass || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, tripClass: Number(e.target.value) })
-          }
-        >
-          <option value="">Любой</option>
-          <option value="0">Эконом</option>
-          <option value="1">Бизнес</option>
-          <option value="2">Первый класс</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="departureDateStart">Дата отправки (начало):</label>
-        <input
+    <FiltersContainer>
+      <FilterItem>
+        <Label htmlFor="departureDateStart">Дата отправки (начало):</Label>
+        <StyledInput
           id="departureDateStart"
           type="date"
           value={filters.departureDateStart || ''}
@@ -59,11 +17,11 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
             setFilters({ ...filters, departureDateStart: e.target.value })
           }
         />
-      </div>
+      </FilterItem>
 
-      <div>
-        <label htmlFor="departureDateEnd">Дата отправки (конец):</label>
-        <input
+      <FilterItem>
+        <Label htmlFor="departureDateEnd">Дата отправки (конец):</Label>
+        <StyledInput
           id="departureDateEnd"
           type="date"
           value={filters.departureDateEnd || ''}
@@ -71,11 +29,11 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
             setFilters({ ...filters, departureDateEnd: e.target.value })
           }
         />
-      </div>
+      </FilterItem>
 
-      <div>
-        <label htmlFor="returnDateStart">Дата возвращения (начало):</label>
-        <input
+      <FilterItem>
+        <Label htmlFor="returnDateStart">Дата возвращения (начало):</Label>
+        <StyledInput
           id="returnDateStart"
           type="date"
           value={filters.returnDateStart || ''}
@@ -83,11 +41,11 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
             setFilters({ ...filters, returnDateStart: e.target.value })
           }
         />
-      </div>
+      </FilterItem>
 
-      <div>
-        <label htmlFor="returnDateEnd">Дата возвращения (конец):</label>
-        <input
+      <FilterItem>
+        <Label htmlFor="returnDateEnd">Дата возвращения (конец):</Label>
+        <StyledInput
           id="returnDateEnd"
           type="date"
           value={filters.returnDateEnd || ''}
@@ -95,10 +53,56 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
             setFilters({ ...filters, returnDateEnd: e.target.value })
           }
         />
-      </div>
+      </FilterItem>
 
-      <button onClick={onResetFilters}>Сбросить фильтры</button>
-    </div>
+      <FilterItem>
+        <Label htmlFor="maxPrice">Максимальная цена:</Label>
+        <StyledInput
+          id="maxPrice"
+          type="number"
+          value={filters.maxPrice || ''}
+          onChange={(e) =>
+            setFilters({ ...filters, maxPrice: Number(e.target.value) })
+          }
+        />
+      </FilterItem>
+
+      <FilterItem>
+        <Label htmlFor="maxStops">Число пересадок:</Label>
+        <StyledSelect
+          id="maxStops"
+          value={filters.maxStops || ''}
+          onChange={(e) =>
+            setFilters({ ...filters, maxStops: Number(e.target.value) })
+          }
+        >
+          <option value="">Любое</option>
+          <option value="1">Без пересадок</option>
+          <option value="2">1 пересадка</option>
+          <option value="3">2 пересадки</option>
+        </StyledSelect>
+      </FilterItem>
+
+      <FilterItem>
+        <Label htmlFor="tripClass">Класс перелета:</Label>
+        <StyledSelect
+          id="tripClass"
+          value={filters.tripClass || ''}
+          onChange={(e) =>
+            setFilters({ ...filters, tripClass: Number(e.target.value) })
+          }
+        >
+          <option value="">Любой</option>
+          <option value="1">Эконом</option>
+          <option value="2">Бизнес</option>
+          <option value="3">Первый класс</option>
+        </StyledSelect>
+      </FilterItem>
+
+      <Actions>
+        <StyledButton onClick={onResetFilters}>Сбросить фильтры</StyledButton>
+      </Actions>
+    </FiltersContainer>
   );
 };
 

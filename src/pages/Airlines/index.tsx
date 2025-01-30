@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 
 import { FlightDataResponse, FlightData } from '../../store/api/flightsApi/index.types';
-import Button from '../../ui-kit/Button';
 import Flex from '../../ui-kit/Flex';
 
 import Filters from './FlightsFilters';
 import { FiltersType } from './FlightsFilters/index.types';
 import FlightPanel from './FlightsPanel';
 import SearchForm from './SearchForm';
+import { Container, Button, FilterSection, SortSection } from './index.style';
 
 const Airlines: FC = () => {
   const [flights, setFlights] = useState<FlightDataResponse['data'] | null>(null);
@@ -35,26 +35,18 @@ const Airlines: FC = () => {
 
   const filterFlights = (flights: FlightData[], filters: FiltersType): FlightData[] => {
     return flights.filter((flight) => {
-      // Фильтр по цене
       if (filters.maxPrice !== null && flight.value > filters.maxPrice) {
         return false;
       }
 
-      if (
-        filters.maxStops !== null &&
-        flight.number_of_changes > filters.maxStops
-      ) {
+      if (filters.maxStops !== null && flight.number_of_changes > filters.maxStops) {
         return false;
       }
 
-      if (
-        filters.tripClass !== null &&
-        flight.trip_class !== filters.tripClass
-      ) {
+      if (filters.tripClass !== null && flight.trip_class !== filters.tripClass) {
         return false;
       }
 
-      // Фильтр по дате отправки
       if (filters.departureDateStart || filters.departureDateEnd) {
         const departDate = new Date(flight.depart_date).getTime();
         const startDate = filters.departureDateStart ? new Date(filters.departureDateStart).getTime() : null;
@@ -64,13 +56,12 @@ const Airlines: FC = () => {
         if (endDate && departDate > endDate) return false;
       }
 
-      // Фильтр по дате возвращения
       if (filters.returnDateStart || filters.returnDateEnd) {
         const returnDate = flight.return_date ? new Date(flight.return_date).getTime() : null;
         const startDate = filters.returnDateStart ? new Date(filters.returnDateStart).getTime() : null;
         const endDate = filters.returnDateEnd ? new Date(filters.returnDateEnd).getTime() : null;
 
-        if (returnDate === null) return false; // Если рейс без возвращения
+        if (returnDate === null) return false;
         if (startDate && returnDate < startDate) return false;
         if (endDate && returnDate > endDate) return false;
       }
@@ -104,22 +95,25 @@ const Airlines: FC = () => {
   };
 
   return (
-    <Flex dir="column" gap={20}>
+    <Container>
       <SearchForm setFlights={setFlights} />
 
-      <Button onClick={handleSortByDate}>
-        Сортировать по дате ({sortBy === 'date' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
-      </Button>
+      <FilterSection>
+        <Filters
+          filters={filters}
+          setFilters={setFilters}
+          onResetFilters={handleResetFilters}
+        />
+      </FilterSection>
 
-      <Button onClick={handleSortByPrice}>
-        Сортировать по цене ({sortBy === 'price' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
-      </Button>
-
-      <Filters
-        filters={filters}
-        setFilters={setFilters}
-        onResetFilters={handleResetFilters}
-      />
+      <SortSection>
+        <Button onClick={handleSortByDate}>
+          Сортировать по дате ({sortBy === 'date' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
+        </Button>
+        <Button onClick={handleSortByPrice}>
+          Сортировать по цене ({sortBy === 'price' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
+        </Button>
+      </SortSection>
 
       {sortedAndFilteredFlights ? (
         <>
@@ -129,7 +123,7 @@ const Airlines: FC = () => {
       ) : (
         <p>Нет доступных рейсов. Попробуйте изменить параметры поиска.</p>
       )}
-    </Flex>
+    </Container>
   );
 };
 

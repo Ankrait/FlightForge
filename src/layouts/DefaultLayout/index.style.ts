@@ -4,7 +4,7 @@ export const DefaultLayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 1200px;
+  max-width: 75%;
   margin: 0 auto;
   padding: 12px 32px;
   height: 100%;

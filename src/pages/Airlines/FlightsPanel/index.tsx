@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
 import { FlightData } from '../../../store/api/flightsApi/index.types';
-import Flex from '../../../ui-kit/Flex';
 
 import FlightCard from './FlightCard';
+import { FlightPanelWrapper } from './FlightCard/indxe.style';
 
 interface FlightPanelProps {
   flights: FlightData[];
@@ -11,11 +11,11 @@ interface FlightPanelProps {
 
 const FlightPanel: FC<FlightPanelProps> = ({ flights }) => {
   return (
-    <Flex dir="column" gap={10}>
+    <FlightPanelWrapper>
       {flights.map((flight, index) => (
         <FlightCard key={index} flight={flight} />
       ))}
-    </Flex>
+    </FlightPanelWrapper>
   );
 };
 
