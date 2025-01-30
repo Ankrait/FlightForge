@@ -1,17 +1,17 @@
 export interface HotelDetail{
     location: {
-        country: string | undefined,
-        geo: {
-            lon: number | undefined,
-            lat: number | undefined
+        country?: string,
+        geo?: {
+            lon: number,
+            lat: number
         },
-        state: string | undefined,
-        name: string | undefined
+        state?: string,
+        name?: string
     },
-    priceAvg: number | undefined,
-    hotelName: number | undefined,
-    stars: number | undefined,
-    locationId: number | undefined,
-    hotelId: number | undefined,
-    priceFrom: number | undefined
+    priceAvg: number,
+    hotelName: number,
+    stars: number,
+    locationId: number,
+    hotelId: number,
+    priceFrom: number
 }
