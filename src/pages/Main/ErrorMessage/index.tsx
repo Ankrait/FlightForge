@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyledError} from './index.style';
+import {Error} from './index.style';
 
 const ErrorMessage = ({ error }) => {
   const getErrorMessage = () => {
@@ -11,9 +11,9 @@ const ErrorMessage = ({ error }) => {
   };
 
   return (
-    <StyledError>
+    <Error>
       <strong>Ошибка:</strong> {getErrorMessage()}
-    </StyledError>
+    </Error>
   );
 };
 

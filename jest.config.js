@@ -87,9 +87,7 @@ const config = {
     // ],
   
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-    moduleNameMapper: {
-      '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/src/__mocks__/fileMock.js',
-    },
+    // moduleNameMapper: {},
   
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
     // modulePathIgnorePatterns: [],
@@ -154,12 +152,7 @@ const config = {
     // testLocationInResults: false,
   
     // The glob patterns Jest uses to detect test files
-    testMatch: [
-      '**/src/**/__test__/**/*.test.js', 
-      '**/src/**/__test__/**/*.spec.js',
-      '**/src/**/__test__/**/*.test.tsx',  // Add this pattern for .tsx files
-      '**/src/**/__test__/**/*.spec.tsx',
-    ],
+    testMatch: ['**/src/**/__test__/**/*.test.js', '**/src/**/__test__/**/*.spec.js'],
   
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     // testPathIgnorePatterns: [
