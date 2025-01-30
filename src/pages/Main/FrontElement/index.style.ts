@@ -5,7 +5,7 @@ export const LogoStyled = styled.div`
   font-weight: 700;
 `;
 
-export const AnimatedBackgroundText = styled.div`
+export const AnimatedBackgroundText = styled.p`
   display: flex;           
   justify-content: center;  
   align-items: center;      

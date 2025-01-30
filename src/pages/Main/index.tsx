@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import Flex from '../../ui-kit/Flex';
 import FrontElement from './FrontElement';
 import FlightsList from './FlightsList';
 
