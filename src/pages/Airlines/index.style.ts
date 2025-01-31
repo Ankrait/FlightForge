@@ -107,11 +107,18 @@ export const FiltersContainer = styled.div`
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1728px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1140px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 860px) {
     grid-template-columns: 1fr;
   }
 `;
-
 export const FilterItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,10 +131,6 @@ export const Label = styled.label`
   font-weight: 600;
   margin-bottom: 4px;
 `;
-
-// export const StyledInput = styled(Input)`
-//     font-size: 14px;
-// `;
 
 export const StyledInput = styled(Input)<InputProps>`
   font-size: 14px;

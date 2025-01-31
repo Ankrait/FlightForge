@@ -1,11 +1,9 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import React, { FC, useRef, useState } from 'react';
 
-import { useGetCityToCityFlightsQuery} from '../../../store/api/flightsApi';
+import { useGetCityToCityFlightsQuery } from '../../../store/api/flightsApi';
 import { FlightDataResponse } from '../../../store/api/flightsApi/index.types';
-import {
-  useGetCitiesQuery,
-} from '../../../store/api/otherApi';
+import { useGetCitiesQuery } from '../../../store/api/otherApi';
 import Button from '../../../ui-kit/Button';
 import Flex from '../../../ui-kit/Flex';
 import { saveCityToLocalStorage } from '../../../utils/LocalStorage';
@@ -13,7 +11,9 @@ import { saveCityToLocalStorage } from '../../../utils/LocalStorage';
 import SearchInput from './SearchInput';
 import { IOrigin } from './types';
 
-const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }> = ({ setFlights }) => {
+const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }> = ({
+  setFlights,
+}) => {
   const [toCode, setToCode] = useState<IOrigin | null>(null);
   const [fromCode, setFromCode] = useState<IOrigin | null>(null);
   const [canFetch, setCanFetch] = useState(false);
@@ -29,10 +29,14 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
     },
   });
 
-  const { data: flightData, isLoading, error } = useGetCityToCityFlightsQuery(
+  const {
+    data: flightData,
+    isLoading,
+    error,
+  } = useGetCityToCityFlightsQuery(
     canFetch && toCode && fromCode
-      ? { origin: fromCode.code, destination: toCode.code}
-      : skipToken // Пропустить запрос, если данных нет
+      ? { origin: fromCode.code, destination: toCode.code }
+      : skipToken, // Пропустить запрос, если данных нет
   );
 
   const onSubmit = (e: React.FormEvent) => {
@@ -43,6 +47,20 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
     saveCityToLocalStorage(toCode.code, toCode.name);
 
     setCanFetch(true);
+  };
+
+  const handleFromCodeChange = (selectedCity: IOrigin | null) => {
+    setFromCode(selectedCity);
+    if (selectedCity) {
+      saveCityToLocalStorage(selectedCity.code, selectedCity.name);
+    }
+  };
+
+  const handleToCodeChange = (selectedCity: IOrigin | null) => {
+    setToCode(selectedCity);
+    if (selectedCity) {
+      saveCityToLocalStorage(selectedCity.code, selectedCity.name);
+    }
   };
 
   if (flightData && flightData.success) {
@@ -57,7 +75,7 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
         <SearchInput
           placeholder="Откуда?"
           cities={cities || []}
-          setOrigin={setFromCode}
+          setOrigin={handleFromCodeChange}
           handleSelect={() => {
             if (fromInputRef.current) fromInputRef.current.focus();
           }}
@@ -66,10 +84,10 @@ const SearchForm: FC<{ setFlights: (data: FlightDataResponse['data']) => void }>
           ref={fromInputRef}
           placeholder="Куда?"
           cities={cities || []}
-          setOrigin={setToCode}
+          setOrigin={handleToCodeChange}
         />
         <Button disabled={!toCode || !fromCode || isLoading} type="submit">
-          { isLoading ? 'Загрузка...' : 'Найти'}
+          {isLoading ? 'Загрузка...' : 'Найти'}
         </Button>
       </Flex>
     </form>
