@@ -1,18 +1,18 @@
 import React, { FC } from 'react';
 
-import { AIRLINES_PAGE, HOME_PAGE } from '../../../router/routes';
 import Flex from '../../../ui-kit/Flex';
 
 import { HeaderWrapper, Link, LogoStyled } from './index.style';
+import { getNavigationValue } from '@brojs/cli';
 
 const menuList = [
   {
-    label: 'Главная',
-    href: HOME_PAGE,
+    name: 'Главная',
+    href: getNavigationValue('flight-forge.main'),
   },
   {
-    label: 'Билеты',
-    href: AIRLINES_PAGE,
+    name: 'Билеты',
+    href: getNavigationValue('flight-forge.detail'),
   },
 ];
 
@@ -23,7 +23,7 @@ const Header: FC = () => {
       <Flex justify="space-between">
         {menuList.map(item => (
           <Link key={item.href} to={item.href}>
-            {item.label}
+            {item.name}
           </Link>
         ))}
       </Flex>

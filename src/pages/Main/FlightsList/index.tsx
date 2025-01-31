@@ -7,22 +7,12 @@ import { useGetCitiesQuery } from '../../../store/api/otherApi';
 import FlightImage from '../FlightImage';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
+import formatDate from './utils';
 
 const currencySymbols: { [key: string]: string } = {
   usd: '$',
   eur: '€',
   rub: '₽',
-};
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-
-  const formattedDate = date.toLocaleDateString('ru-RU', {
-      month: 'long',
-      day: 'numeric',
-  });
-
-  return formattedDate;
 };
 
 const FlightsList: FC = () => {
@@ -54,7 +44,7 @@ const FlightsList: FC = () => {
           const destinationCity = cities?.find(city => city.code === flight.destination);
 
           return (
-            <LinkStyled key={cityCode} to={`/flights/${flight.flight_number}/${flight.destination}`}>
+            <LinkStyled key={cityCode} to={`flights/${flight.flight_number}/${flight.destination}`}>
               <Card>
                 <FlightImage cityCode={cityCode} />
 

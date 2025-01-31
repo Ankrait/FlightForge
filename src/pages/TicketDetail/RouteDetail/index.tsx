@@ -8,35 +8,12 @@ import { StyledContainer, StyledFlightDate, StyledFlightDetail, StyledFlightDeta
 import Heading from '../../../ui-kit/Heading';
 import ErrorMessage from '../../Main/ErrorMessage';
 import Loading from '../../Main/Loading';
+import { formatDate } from '../utils/index';
 
 const currencySymbols: { [key: string]: string } = {
     usd: '$',
     eur: '€',
     rub: '₽',
-};
-
-const formatDate = (dateString) => {
-    const date = new Date(dateString);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0'); 
-
-    const formattedDateYYYYMMdd = `${year}-${month}-${day}`;
-
-    const formattedDate = date.toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-
-    const formattedTime = date.toLocaleTimeString('ru-RU', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-    });
-
-    return { formattedDate, formattedTime, formattedDateYYYYMMdd };
 };
 
 const FlightDetail: FC = () => {
@@ -46,15 +23,27 @@ const FlightDetail: FC = () => {
     const { data: airlines, error: airlinesError, isLoading: airlinesLoading  } = useGetAirlinesQuery();
   
     if (isLoading || citiesLoading || airlinesLoading) {
-      return <Loading/>;
+      return (
+            <StyledContainer>
+                <Loading/>;
+            </StyledContainer>
+        );
     }
   
     if (error || citiesError || airlinesError) {
-      return <ErrorMessage error={error || citiesError || airlinesError} />;
+      return (
+        <StyledContainer>
+            <ErrorMessage error={error || citiesError || airlinesError} />;
+        </StyledContainer>
+      );
     }
   
     if (!data || !data.success || !data.data) {
-      return <ErrorMessage error={new Error('Нет данных')} />;
+      return (
+        <StyledContainer>
+             <ErrorMessage error={new Error('Нет данных')} />;
+        </StyledContainer>
+      );
     }
   
     const flights = data.data;
