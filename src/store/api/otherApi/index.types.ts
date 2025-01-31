@@ -45,4 +45,3 @@ export interface IAirline {
   is_lowcost: boolean
 }
 
-// TODO - добавить русский язык
