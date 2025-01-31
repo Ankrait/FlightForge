@@ -7,11 +7,11 @@ import { getNavigationValue } from '@brojs/cli';
 
 const menuList = [
   {
-    label: 'Главная',
+    name: 'Главная',
     href: getNavigationValue('flight-forge.main'),
   },
   {
-    label: 'Билеты',
+    name: 'Билеты',
     href: getNavigationValue('flight-forge.detail'),
   },
 ];
@@ -23,7 +23,7 @@ const Header: FC = () => {
       <Flex justify="space-between">
         {menuList.map(item => (
           <Link key={item.href} to={item.href}>
-            {item.label}
+            {item.name}
           </Link>
         ))}
       </Flex>

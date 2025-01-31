@@ -14,11 +14,11 @@ module.exports = {
     'flight-forge.ticket-detail': '/flight-forge/flights/:flightNumber/:dest'
   },
   features: {
-    sber: {
+    'flight-forge': {
       // add your features here in the format [featureName]: { value: string }
     },
   },
   config: {
-    'sber.api': '/api',
+    'flight-forge.api': '/api',
   },
 };
