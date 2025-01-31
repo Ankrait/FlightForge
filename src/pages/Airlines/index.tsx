@@ -1,12 +1,19 @@
 import React, { FC, useState } from 'react';
 
-import { FlightDataResponse, FlightData } from '../../store/api/flightsApi/index.types';
+import { FlightData, FlightDataResponse } from '../../store/api/flightsApi/index.types';
 
 import Filters from './FlightsFilters';
 import { FiltersType } from './FlightsFilters/index.types';
 import FlightPanel from './FlightsPanel';
 import SearchForm from './SearchForm';
-import { Container, Button, FilterSection, SortSection } from './index.style';
+import { Button, Container, FilterSection, SortSection } from './index.style';
+
+type ValidationErrors = {
+  departureDateStart?: string;
+  departureDateEnd?: string;
+  returnDateStart?: string;
+  returnDateEnd?: string;
+};
 
 const Airlines: FC = () => {
   const [flights, setFlights] = useState<FlightDataResponse['data'] | null>(null);
@@ -21,19 +28,20 @@ const Airlines: FC = () => {
     returnDateStart: null,
     returnDateEnd: null,
   });
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   const handleSortByDate = () => {
     setSortBy('date');
-    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
   };
 
   const handleSortByPrice = () => {
     setSortBy('price');
-    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
   };
 
   const filterFlights = (flights: FlightData[], filters: FiltersType): FlightData[] => {
-    return flights.filter((flight) => {
+    return flights.filter(flight => {
       if (filters.maxPrice !== null && flight.value > filters.maxPrice) {
         return false;
       }
@@ -48,17 +56,27 @@ const Airlines: FC = () => {
 
       if (filters.departureDateStart || filters.departureDateEnd) {
         const departDate = new Date(flight.depart_date).getTime();
-        const startDate = filters.departureDateStart ? new Date(filters.departureDateStart).getTime() : null;
-        const endDate = filters.departureDateEnd ? new Date(filters.departureDateEnd).getTime() : null;
+        const startDate = filters.departureDateStart
+          ? new Date(filters.departureDateStart).getTime()
+          : null;
+        const endDate = filters.departureDateEnd
+          ? new Date(filters.departureDateEnd).getTime()
+          : null;
 
         if (startDate && departDate < startDate) return false;
         if (endDate && departDate > endDate) return false;
       }
 
       if (filters.returnDateStart || filters.returnDateEnd) {
-        const returnDate = flight.return_date ? new Date(flight.return_date).getTime() : null;
-        const startDate = filters.returnDateStart ? new Date(filters.returnDateStart).getTime() : null;
-        const endDate = filters.returnDateEnd ? new Date(filters.returnDateEnd).getTime() : null;
+        const returnDate = flight.return_date
+          ? new Date(flight.return_date).getTime()
+          : null;
+        const startDate = filters.returnDateStart
+          ? new Date(filters.returnDateStart).getTime()
+          : null;
+        const endDate = filters.returnDateEnd
+          ? new Date(filters.returnDateEnd).getTime()
+          : null;
 
         if (returnDate === null) return false;
         if (startDate && returnDate < startDate) return false;
@@ -71,14 +89,14 @@ const Airlines: FC = () => {
 
   const sortedAndFilteredFlights = flights
     ? filterFlights(Object.values(flights), filters).sort((a, b) => {
-      if (sortBy === 'date') {
-        const dateA = new Date(a.depart_date).getTime();
-        const dateB = new Date(b.depart_date).getTime();
-        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-      } else {
-        return sortOrder === 'asc' ? a.value - b.value : b.value - a.value;
-      }
-    })
+        if (sortBy === 'date') {
+          const dateA = new Date(a.depart_date).getTime();
+          const dateB = new Date(b.depart_date).getTime();
+          return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+        } else {
+          return sortOrder === 'asc' ? a.value - b.value : b.value - a.value;
+        }
+      })
     : null;
 
   const handleResetFilters = () => {
@@ -91,6 +109,7 @@ const Airlines: FC = () => {
       returnDateStart: null,
       returnDateEnd: null,
     });
+    setValidationErrors({});
   };
 
   return (
@@ -102,15 +121,19 @@ const Airlines: FC = () => {
           filters={filters}
           setFilters={setFilters}
           onResetFilters={handleResetFilters}
+          validationErrors={validationErrors}
+          setValidationErrors={setValidationErrors}
         />
       </FilterSection>
 
       <SortSection>
         <Button onClick={handleSortByDate}>
-          Сортировать по дате ({sortBy === 'date' && sortOrder === 'asc' ? 'по убыванию' : 'по возрастанию'})
+          Сортировать по дате (
+          {sortBy === 'date' && sortOrder === 'asc' ? 'по убыванию' : 'по возрастанию'})
         </Button>
         <Button onClick={handleSortByPrice}>
-          Сортировать по цене ({sortBy === 'price' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
+          Сортировать по цене (
+          {sortBy === 'price' && sortOrder === 'asc' ? 'по возрастанию' : 'по убыванию'})
         </Button>
       </SortSection>
 
