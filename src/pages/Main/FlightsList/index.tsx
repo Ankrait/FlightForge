@@ -54,7 +54,7 @@ const FlightsList: FC = () => {
           const destinationCity = cities?.find(city => city.code === flight.destination);
 
           return (
-            <LinkStyled key={cityCode} to={`/flights/${flight.flight_number}/${flight.destination}`}>
+            <LinkStyled key={cityCode} to={`flights/${flight.flight_number}/${flight.destination}`}>
               <Card>
                 <FlightImage cityCode={cityCode} />
 

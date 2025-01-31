@@ -11,6 +11,7 @@ module.exports = {
   navigations: {
     'sber.main': '/sber',
     'sber.detail': '/sber/flights',
+    'sber.ticket-detail': '/sber/flights/:flightNumber/:dest'
   },
   features: {
     sber: {

@@ -1,30 +1,31 @@
 import React from 'react';
-import { createHashRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 import DefaultLayout from '../layouts/DefaultLayout';
 import TicketDetail from '../pages/TicketDetail';
 import Airlines from '../pages/Airlines';
 import Main from '../pages/Main';
 
-import { AIRLINES_PAGE, HOME_PAGE, ROUTE_DETAIL_PAGE } from './routes';
+import { getNavigationValue } from '@brojs/cli';
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
   {
-    path: '/',
+    path: getNavigationValue('sber.main'),
     element: <DefaultLayout />,
     children: [
       {
-        path: HOME_PAGE,
-        element: <Main />,
+        path: getNavigationValue('sber.main'),
+        element: <Main />
       },
       {
-        path: AIRLINES_PAGE,
-        element: <Airlines />,
+        path: getNavigationValue('sber.detail'),
+        element: <Airlines />
       },
       {
-        path: ROUTE_DETAIL_PAGE,
-        element: <TicketDetail />,
+        path: getNavigationValue('sber.ticket-detail'),
+        element: <TicketDetail />
       },
-    ],
+      { path: '*', element: <h1>404</h1> }
+    ]
   },
 ]);

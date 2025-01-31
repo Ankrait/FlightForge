@@ -46,15 +46,27 @@ const FlightDetail: FC = () => {
     const { data: airlines, error: airlinesError, isLoading: airlinesLoading  } = useGetAirlinesQuery();
   
     if (isLoading || citiesLoading || airlinesLoading) {
-      return <Loading/>;
+      return (
+            <StyledContainer>
+                <Loading/>;
+            </StyledContainer>
+        );
     }
   
     if (error || citiesError || airlinesError) {
-      return <ErrorMessage error={error || citiesError || airlinesError} />;
+      return (
+        <StyledContainer>
+            <ErrorMessage error={error || citiesError || airlinesError} />;
+        </StyledContainer>
+      );
     }
   
     if (!data || !data.success || !data.data) {
-      return <ErrorMessage error={new Error('Нет данных')} />;
+      return (
+        <StyledContainer>
+             <ErrorMessage error={new Error('Нет данных')} />;
+        </StyledContainer>
+      );
     }
   
     const flights = data.data;
