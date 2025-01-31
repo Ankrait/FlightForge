@@ -9,9 +9,9 @@ module.exports = {
   },
   /* use https://admin.bro-js.ru/ to create config, navigations and features */
   navigations: {
-    'sber.main': '/sber',
-    'sber.detail': '/sber/flights',
-    'sber.ticket-detail': '/sber/flights/:flightNumber/:dest'
+    'flight-forge.main': '/flight-forge',
+    'flight-forge.detail': '/flight-forge/flights',
+    'flight-forge.ticket-detail': '/flight-forge/flights/:flightNumber/:dest'
   },
   features: {
     sber: {

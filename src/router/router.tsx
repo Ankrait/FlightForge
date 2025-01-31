@@ -10,19 +10,19 @@ import { getNavigationValue } from '@brojs/cli';
 
 export const router = createBrowserRouter([
   {
-    path: getNavigationValue('sber.main'),
+    path: getNavigationValue('flight-forge.main'),
     element: <DefaultLayout />,
     children: [
       {
-        path: getNavigationValue('sber.main'),
+        path: getNavigationValue('flight-forge.main'),
         element: <Main />
       },
       {
-        path: getNavigationValue('sber.detail'),
+        path: getNavigationValue('flight-forge.detail'),
         element: <Airlines />
       },
       {
-        path: getNavigationValue('sber.ticket-detail'),
+        path: getNavigationValue('flight-forge.ticket-detail'),
         element: <TicketDetail />
       },
       { path: '*', element: <h1>404</h1> }

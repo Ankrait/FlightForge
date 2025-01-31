@@ -8,11 +8,11 @@ import { getNavigationValue } from '@brojs/cli';
 const menuList = [
   {
     label: 'Главная',
-    href: getNavigationValue('sber.main'),
+    href: getNavigationValue('flight-forge.main'),
   },
   {
     label: 'Билеты',
-    href: getNavigationValue('sber.detail'),
+    href: getNavigationValue('flight-forge.detail'),
   },
 ];
 
