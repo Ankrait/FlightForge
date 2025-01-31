@@ -1,18 +1,18 @@
 import React, { FC } from 'react';
 
-import { AIRLINES_PAGE, HOME_PAGE } from '../../../router/routes';
 import Flex from '../../../ui-kit/Flex';
 
 import { HeaderWrapper, Link, LogoStyled } from './index.style';
+import { getNavigationValue } from '@brojs/cli';
 
 const menuList = [
   {
     label: 'Главная',
-    href: HOME_PAGE,
+    href: getNavigationValue('sber.main'),
   },
   {
     label: 'Билеты',
-    href: AIRLINES_PAGE,
+    href: getNavigationValue('sber.detail'),
   },
 ];
 

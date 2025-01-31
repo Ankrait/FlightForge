@@ -15,7 +15,6 @@ const DefaultLayout: FC = () => {
       <DefaultLayoutContent>
         <Outlet />
       </DefaultLayoutContent>
-      {/* <div style={{ background: 'red', padding: '0 8px' }}>Footer</div> */}
       <Footer/>
     </DefaultLayoutWrapper>
   );
