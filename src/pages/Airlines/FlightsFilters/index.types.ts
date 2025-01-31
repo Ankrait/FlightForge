@@ -8,8 +8,21 @@ export interface FiltersType {
   returnDateEnd: string | null;
 }
 
+export interface ValidationErrors {
+  departureDateStart?: string;
+  departureDateEnd?: string;
+  returnDateStart?: string;
+  returnDateEnd?: string;
+}
+
 export interface FiltersProps {
   filters: FiltersType;
   setFilters: (filters: FiltersType) => void;
   onResetFilters: () => void;
+  validationErrors: ValidationErrors;
+  setValidationErrors: React.Dispatch<React.SetStateAction<ValidationErrors>>;
+}
+
+export interface InputProps {
+  hasError?: boolean;
 }

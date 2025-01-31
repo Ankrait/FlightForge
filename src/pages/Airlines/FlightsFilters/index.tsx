@@ -1,58 +1,96 @@
 import React from 'react';
 
-import { FiltersContainer, FilterItem, Label, StyledInput, StyledSelect, Actions, StyledButton } from '../index.style';
+import {
+  Actions,
+  FilterItem,
+  FiltersContainer,
+  Label,
+  StyledButton,
+  StyledErrorText,
+  StyledInput,
+  StyledSelect,
+} from '../index.style';
 
+import {
+  handleDepartureDateEndChange,
+  handleDepartureDateStartChange,
+  handleResetFilters,
+  handleReturnDateEndChange,
+  handleReturnDateStartChange,
+} from './filtersLogics';
 import { FiltersProps } from './index.types';
 
-const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }) => {
+const Filters: React.FC<FiltersProps> = ({
+  filters,
+  setFilters,
+  onResetFilters,
+  validationErrors,
+  setValidationErrors,
+}) => {
   return (
     <FiltersContainer>
       <FilterItem>
-        <Label htmlFor="departureDateStart">Дата отправки (начало):</Label>
+        <Label htmlFor="departureDateStart">Вылет с:</Label>
         <StyledInput
           id="departureDateStart"
           type="date"
           value={filters.departureDateStart || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, departureDateStart: e.target.value })
+          onChange={e =>
+            handleDepartureDateStartChange(e, filters, setFilters, setValidationErrors)
           }
+          hasError={!!validationErrors.departureDateStart}
         />
+        {validationErrors.departureDateStart && (
+          <StyledErrorText>{validationErrors.departureDateStart}</StyledErrorText>
+        )}
       </FilterItem>
 
       <FilterItem>
-        <Label htmlFor="departureDateEnd">Дата отправки (конец):</Label>
+        <Label htmlFor="departureDateEnd">Вылет по:</Label>
         <StyledInput
           id="departureDateEnd"
           type="date"
           value={filters.departureDateEnd || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, departureDateEnd: e.target.value })
+          onChange={e =>
+            handleDepartureDateEndChange(e, filters, setFilters, setValidationErrors)
           }
+          hasError={!!validationErrors.departureDateEnd}
         />
+        {validationErrors.departureDateEnd && (
+          <StyledErrorText>{validationErrors.departureDateEnd}</StyledErrorText>
+        )}
       </FilterItem>
 
       <FilterItem>
-        <Label htmlFor="returnDateStart">Дата возвращения (начало):</Label>
+        <Label htmlFor="returnDateStart">Прилет с:</Label>
         <StyledInput
           id="returnDateStart"
           type="date"
           value={filters.returnDateStart || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, returnDateStart: e.target.value })
+          onChange={e =>
+            handleReturnDateStartChange(e, filters, setFilters, setValidationErrors)
           }
+          hasError={!!validationErrors.returnDateStart}
         />
+        {validationErrors.returnDateStart && (
+          <StyledErrorText>{validationErrors.returnDateStart}</StyledErrorText>
+        )}
       </FilterItem>
 
       <FilterItem>
-        <Label htmlFor="returnDateEnd">Дата возвращения (конец):</Label>
+        <Label htmlFor="returnDateEnd">Прилет по:</Label>
         <StyledInput
           id="returnDateEnd"
           type="date"
           value={filters.returnDateEnd || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, returnDateEnd: e.target.value })
+          onChange={e =>
+            handleReturnDateEndChange(e, filters, setFilters, setValidationErrors)
           }
+          hasError={!!validationErrors.returnDateEnd}
         />
+        {validationErrors.returnDateEnd && (
+          <StyledErrorText>{validationErrors.returnDateEnd}</StyledErrorText>
+        )}
       </FilterItem>
 
       <FilterItem>
@@ -61,9 +99,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
           id="maxPrice"
           type="number"
           value={filters.maxPrice || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, maxPrice: Number(e.target.value) })
-          }
+          onChange={e => setFilters({ ...filters, maxPrice: Number(e.target.value) })}
         />
       </FilterItem>
 
@@ -72,9 +108,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
         <StyledSelect
           id="maxStops"
           value={filters.maxStops || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, maxStops: Number(e.target.value) })
-          }
+          onChange={e => setFilters({ ...filters, maxStops: Number(e.target.value) })}
         >
           <option value="">Любое</option>
           <option value="1">Без пересадок</option>
@@ -88,9 +122,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
         <StyledSelect
           id="tripClass"
           value={filters.tripClass || ''}
-          onChange={(e) =>
-            setFilters({ ...filters, tripClass: Number(e.target.value) })
-          }
+          onChange={e => setFilters({ ...filters, tripClass: Number(e.target.value) })}
         >
           <option value="">Любой</option>
           <option value="1">Эконом</option>
@@ -100,7 +132,13 @@ const Filters: React.FC<FiltersProps> = ({ filters, setFilters, onResetFilters }
       </FilterItem>
 
       <Actions>
-        <StyledButton onClick={onResetFilters}>Сбросить фильтры</StyledButton>
+        <StyledButton
+          onClick={() =>
+            handleResetFilters(onResetFilters, setFilters, filters, setValidationErrors)
+          }
+        >
+          Сбросить фильтры
+        </StyledButton>
       </Actions>
     </FiltersContainer>
   );

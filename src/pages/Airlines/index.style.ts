@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { InputProps } from './FlightsFilters/index.types';
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -130,8 +132,15 @@ export const Label = styled.label`
   margin-bottom: 4px;
 `;
 
-export const StyledInput = styled(Input)`
+export const StyledInput = styled(Input)<InputProps>`
   font-size: 14px;
+  border-color: ${({ hasError }) => (hasError ? 'red' : '#d9d9d9')};
+
+  &:focus {
+    border-color: ${({ hasError }) => (hasError ? 'red' : '#40a9ff')};
+    box-shadow: ${({ hasError }) =>
+      hasError ? '0 0 0 2px rgba(255, 0, 0, 0.2)' : '0 0 0 2px rgba(24, 144, 255, 0.2)'};
+  }
 `;
 
 export const StyledSelect = styled(Select)`
@@ -155,4 +164,11 @@ export const Actions = styled.div`
 export const StyledButton = styled(Button)`
   font-size: 14px;
   font-weight: bold;
+`;
+
+export const StyledErrorText = styled.span`
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
 `;
