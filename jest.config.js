@@ -1,8 +1,3 @@
-// module.exports = {
-//     setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
-//     testMatch: ['**/src/**/__test__/**/*.test.js', '**/src/**/__test__/**/*.spec.js'],
-// };
-
 /** @type {import('jest').Config} */
 const config = {
     // All imported modules in your tests should be mocked automatically
