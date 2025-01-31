@@ -5,6 +5,7 @@ import { useGetHotelsQuery } from '../../../store/api/hotelsApi';
 import Loading from '../../Main/Loading';
 import ErrorMessage from '../../Main/ErrorMessage';
 import HotelImage from '../HotelImage';
+import {calculatePricePerNight} from '../utils/index';
 
 interface IHotelRequestData {
   location: string;
@@ -13,17 +14,6 @@ interface IHotelRequestData {
   currency: string;
   limit: number;
 }
-
-const calculatePricePerNight = (price: number | undefined, checkIn: string, checkOut: string) => {
-  if (!price) return 0;
-  if (checkIn === checkOut) return price;
-
-  const dayInDate = new Date(checkIn);
-  const dayOutDate = new Date(checkOut);
-  const diffDays = (dayOutDate.getTime() - dayInDate.getTime()) / (1000 * 60 * 60 * 24);
-  
-  return diffDays > 0 ? Math.round(price / diffDays) : 0;
-};
 
 const HotelsDetail: FC<IHotelRequestData> = ({ location, checkIn, checkOut, currency, limit }) => {
   const { data, error, isLoading } = useGetHotelsQuery({ location, checkIn, checkOut, currency, limit });
