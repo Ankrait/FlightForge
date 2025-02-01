@@ -1,6 +1,6 @@
 {
     "name": "flight-forge",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "main": "./src/index.tsx",
     "scripts": {
         "test": "jest",
